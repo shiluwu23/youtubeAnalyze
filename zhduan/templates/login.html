@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>YouTube Analyzer Login</title>
+</head>
+<body>
+
+<h3>YouTube Analyzer</h3>
+<h3>Login</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+</form>
+<br>
+<p><strong>-- OR --</strong></p>
+<a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a><br>
+
+</body>
+</html>

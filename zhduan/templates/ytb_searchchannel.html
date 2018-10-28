@@ -1,0 +1,49 @@
+{% extends "youtube.html" %}
+ 
+{% block content2show %}
+<div class="w3-container w3-card w3-light-grey w3-margin-left w3-animate-opacity">
+
+<form action="/youtube/channelinfo/search" method="post" class="w3-text-red">
+    {% csrf_token %}
+    <h4 class="w3-center">Search channel</h4>
+    <div class="">
+    <input class="w3-input w3-border w3-threequarter" name="cid" 
+        type="text" placeholder="Enter the channel id"></td>
+    <input class="w3-button w3-quarter w3-red" 
+        type="submit" value="Submit">
+    </div>
+</form>
+
+<div class="w3-panel">
+<table class="w3-table w3-striped w3-white w3-margin-top">
+    <tr>
+        <td><i class="material-icons w3-text-red w3-large">home</i>
+            &nbsp;&nbsp;Channel title</td>
+        <td>{{ch_title}}</td>
+    </tr>
+    <tr>
+        <td><i class="material-icons w3-text-red w3-large">looks_one</i>
+            &nbsp;&nbsp;Channel id</td>
+        <td>{{ch_id}}</td>
+    </tr>
+    <tr>
+        <td><i class="material-icons w3-text-red w3-large">visibility</i>
+            &nbsp;&nbsp;View count</td>
+        <td>{{ch_viewCount}}</td>
+    </tr>
+    <tr>
+        <td><i class="material-icons w3-text-red w3-large">person</i>
+            &nbsp;&nbsp;Subscriber Count</td>
+        <td>{{chl_subCount}}</td>
+    </tr>
+    <tr>
+        <td><i class="material-icons w3-text-red w3-large">play_circle_filled</i>
+            &nbsp;&nbsp;Video count</td>
+        <td>{{ch_videoCount}}</td>
+    </tr>
+</table>
+<p>{{err_msg}}</p>
+</div>
+
+</div>
+{% endblock %}
