@@ -11,13 +11,15 @@
     <link rel="stylesheet" type="text/css" href="http://www.zhduan.com/static/style/w3.css">
     <link rel="stylesheet" 
     href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
     /* body,h1 {font-family: "Montserrat", sans-serif} */
     </style>
     
 </head>
 
-<body class="w3-white" style="text-align:center;margin: 0 auto; max-width:800px">
+<body class="w3-white" style="text-align:center;margin: 0 auto; max-width:900px">
 <div class="">
 
 <div class="w3-container w3-red w3-section">
@@ -29,7 +31,7 @@
     <table class="w3-right">
         <tr>
             <td>Hello, {{ user.username }}.</td>
-            <td><a href="/youtube/logout">Log out</a>
+            <td><a href="{% url 'ytblogout' %}">Log out</a>
             </td>
         </tr>
     </table>
@@ -45,13 +47,15 @@
 <div class="w3-row w3-margin-top " style="margin-bottom:128px">
 
 <div class="w3-quarter w3-bar-block">
-    <a href="#" class="w3-bar-item w3-button w3-border-bottom w3-border-top">
-        Reports</a>
+    <a href="{% url 'myYoutubePage' %}" class="w3-bar-item w3-button w3-border-bottom w3-border-top">
+        My YouTube</a>
+    <a href="{% url 'ytbTopVideos' %}" class="w3-bar-item w3-button w3-border-bottom">
+        Top videos</a>
     <a href="#" class="w3-bar-item w3-button w3-border-bottom">
-        Channel owner</a>
-    <a href="/youtube/channelinfo" class="w3-bar-item w3-button w3-border-bottom">
+        My channel</a>
+    <a href="{% url 'ChannelInfoPage' %}" class="w3-bar-item w3-button w3-border-bottom">
         Channel info</a>
-    <a href="/youtube/aboutUs" class="w3-bar-item w3-button w3-border-bottom">
+    <a href="#" class="w3-bar-item w3-button w3-border-bottom">
         About us</a>
 </div>
 
@@ -62,14 +66,17 @@
 
 </div>
 
-<div class="w3-container w3-white w3-section">
-    <p class="w3-large">Please sign in first</p>
-</div>
 
+{% if user.is_authenticated %}
+{% else %}
+<div class="w3-container w3-white w3-section">
+        <p class="w3-large">Please sign in first</p>
+    </div>
+{% endif %}
 
 <footer class="w3-container w3-light-grey w3-center w3-opacity"> 
     <p class="w3-medium">e-mail: duanzh@bu.edu</p>
-    <p class="w3-medium">Web gesign using 
+    <p class="w3-medium">Web page design using 
         <a href="https://www.w3schools.com/w3css/default.asp" 
         class="w3-hover-text-green">w3.css</a>
     </p>

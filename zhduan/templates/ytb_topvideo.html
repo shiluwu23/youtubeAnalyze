@@ -1,0 +1,108 @@
+{% extends "youtube.html" %}
+ 
+{% block content2show %}
+<div class="w3-container w3-card w3-light-grey w3-margin-left w3-animate-opacity">
+
+<div>
+    <h2>Top videos</h2>
+</div>
+
+<div onclick="showFilter('topFilter')" 
+class="w3-button w3-block w3-left-align w3-opacity w3-border-bottom">
+    Filter <i class="fa fa-caret-down"></i>
+</div>
+<script>
+function showFilter(id) {
+    var x = document.getElementById(id);
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else { 
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+<div class="w3-container w3-hide w3-border-bottom w3-padding-16 w3-animate-opacity"
+    id="topFilter">
+<form action="" method="POST">
+{% csrf_token %}
+    <div class="w3-quarter" >
+        <span class="w3-opacity">Category</span><br>
+        <select class="w3-select w3-border w3-light-grey w3-opacity" name="category">
+            <option val="0">All</option>
+            <option val="1">Film & Animation</option>
+            <option val="2">Autos & Vehicles</option>
+            <option val="2">Music</option>
+            <option val="2">Pets & Animals</option>
+            <option val="2">Sports</option>
+            <option val="2">Short Movies</option>
+            <option val="2">Travel & Events</option>
+            <option val="2">Gaming</option>
+            <option val="2">Videoblogging</option>
+            <option val="2">People & Blogs</option>
+            <option val="2">Comedy</option>
+        </select>
+    </div>
+    <div class="w3-quarter w3-left-align w3-margin-left">
+        <span class="w3-opacity">Upload date</span><br>
+        <input class="w3-radio" type="radio" name="date" value="all" checked>
+        All time<br>
+        <input class="w3-radio" type="radio" name="date" value="today">
+        Today<br>
+        <input class="w3-radio" type="radio" name="date" value="week">
+        This week<br>
+        <input class="w3-radio" type="radio" name="date" value="month">
+        This month<br>
+        <input class="w3-radio" type="radio" name="date" value="year">
+        This year<br>
+    </div>
+    <div class="w3-quarter w3-left-align" style="width:20%">
+        <span class="w3-opacity">Duration</span><br>
+        <input class="w3-radio" type="radio" name="duration" value="all" checked>
+        All time<br>
+        <input class="w3-radio" type="radio" name="duration" value="4">
+        &lt;4 mins<br>
+        <input class="w3-radio" type="radio" name="duration" value="420">
+        4-20 mins<br>
+        <input class="w3-radio" type="radio" name="duration" value="20">
+        &gt;20 mins<br>
+    </div>
+    <div class="w3-quarter w3-left-align">
+        <span class="w3-opacity">Location</span><br>
+        <select class="w3-select w3-border w3-light-grey w3-opacity" name="location">
+            <option val="0">All</option>
+        </select>
+    </div>
+    
+</form>
+</div>
+
+
+<table class="w3-table w3-striped w3-white w3-margin-top" >
+    {% for v in videos %}
+        <tr>
+            <td style="vertical-align: middle"><h4>{{v.rank}}</h4></td>
+            <td style="vertical-align: middle">
+                <a href="https://www.youtube.com/watch?v={{v.id.videoId}}">
+                <img class="w3-card" src={{v.snippet.thumbnails.default.url}} 
+                alt="Img failed"></a></td>
+            <td>
+                <a href="https://www.youtube.com/watch?v={{v.id.videoId}}">
+                <span>{{v.snippet.title}}</span><br>
+                </a>
+                <p class="w3-small w3-opacity">Published on 
+                    {{v.snippet.publishedAt}}</p>
+                <span>Total views: {{v.views}}</span><br>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% if err_msg %}
+<div class="w3-red">
+    <p>Error: {{err_msg}}</p>
+</div>
+{% endif %}
+
+</div>
+{% endblock %}

@@ -1,26 +1,16 @@
-from googleapiclient.discovery import build
-from urllib import request
-import json
-# from googleapiclient.errors import HttpError
-# from oauth2client.tools import argparser
-
-DEVELOPER_KEY = ""
-YOUTUBE_API_SERVICE_NAME = "youtube"
-YOUTUBE_API_VERSION = "v3"
-
+from .ytbAPI import ytbAPI
 
 def channel_list(cid):
-	scope = 'https://www.googleapis.com/youtube/v3/channels'
-	parameter = '?part=topicDetails%2Csnippet%2CcontentDetails%2Cstatistics'
-	channel = '&id=' + cid
-	key = '&key=' + DEVELOPER_KEY
-	GET_str = scope + parameter + channel + key
-	print(GET_str)
-
-	req = request.Request(GET_str)
-	page = request.urlopen(req).read()
-	page = page.decode('utf-8')
-	response = json.loads(page)
+	'''
+	cid: channel id
+	return: key-value dict
+	'''
+	ytb0 = ytbAPI()
+	ytb0.scope('channels')
+	ytb0.part('topicDetails','snippet', 'contentDetails','statistics')
+	ytb0.id(cid)
+	ytb0.key()
+	response = ytb0.GET()
 
 	re_map = {}
 	if 'error' in response:
@@ -46,47 +36,123 @@ def channel_list(cid):
 	return re_map
 
 
+def mine_channel_list(token):
+	'''
+	token: access token of OAuth 2 user
+	return: key-value dict
+	'''
+	ytb0 = ytbAPI()
+	ytb0.scope('channels')
+	ytb0.part('snippet', 'contentDetails', 'statistics')
+	ytb0.mine()
+	ytb0.access_token(token)
+	response = ytb0.GET()
 
-# useless functions
-'''
-def youtube_search(q, max_results=50,order="relevance", token=None, location=None, location_radius=None):
-
-	youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-		developerKey=DEVELOPER_KEY)
-
-	search_response = youtube.search().list(
-		q=q,
-		type="video",
-		pageToken=token,
-		order = order,
-		part="id,snippet",
-		maxResults=max_results,
-		location=location,
-		locationRadius=location_radius
-
-	).execute()
-
-	videos = []
-
-	for search_result in search_response.get("items", []):
-		if search_result["id"]["kind"] == "youtube#video":
-			videos.append(search_result)
+	re_map = {}
+	if 'error' in response:
+		re_map['err_msg'] = response['error']['message']
+		return re_map
+	elif not 'items' in response:
+		re_map['err_msg'] = 'No item in response.'
+		return re_map
+	
+	items0 = response['items'][0]
 	try:
-		nexttok = search_response["nextPageToken"]
-		return(nexttok, videos)
+		re_map['mine_title'] = items0['snippet']['title']
+		re_map['mine_ch_id'] = items0['id']
+		tmp = items0['snippet']['publishedAt']
+		tmp = tmp.replace('T', ' ')
+		tmp = tmp.replace('Z','')
+		re_map['publishDate'] = tmp
+		re_map['thumb_88_url'] = items0['snippet']['thumbnails']['default']['url']
+		re_map['mine_like_id'] = items0['contentDetails']['relatedPlaylists']['likes']
+		re_map['mine_upload'] = items0['contentDetails']['relatedPlaylists']['uploads']
 	except Exception as e:
-		nexttok = "last_page"
-		return(nexttok, videos)
+		re_map['err_msg'] = e
+		return re_map
+	
+	return re_map
 
-def geo_query(video_id):
-    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-                    developerKey=DEVELOPER_KEY)
 
-    video_response = youtube.videos().list(
-        id=video_id,
-        part='snippet, recordingDetails, statistics'
+def list_items_num(lid, token):
+	'''
+	lid: playlist id
+	token: access token of OAuth 2 user
+	return: int, number of items of the list
+	'''
+	ytb0 = ytbAPI()
+	ytb0.scope('playlistItems')
+	ytb0.part('snippet', 'contentDetails')
+	ytb0.maxResults(1)
+	ytb0.playlistId(lid)
+	ytb0.access_token(token)
+	response = ytb0.GET()
 
-    ).execute()
+	if 'error' in response:
+		return response['error']['message']
+	elif not 'pageInfo' in response:
+		return 'no page info in response'
+	else:
+		return response['pageInfo']['totalResults']
+	
 
-    return video_response
-'''
+def top_videos(num):
+	'''
+	num: int, how many videos to return
+	return: dict, ['videos']: a list of (num) dicts, ['err_msg']
+	'''
+	ytb0 = ytbAPI()
+	ytb0.scope('search')
+	ytb0.part('snippet')
+	ytb0.maxResults(num)
+	ytb0.order('viewCount')
+	ytb0.safeSearch('none')
+	ytb0.type('video')
+	ytb0.key()
+	response = ytb0.GET()
+
+	re_map = {}
+	if 'error' in response:
+		re_map['err_msg'] = response['error']['message']
+		return re_map
+	elif not 'items' in response:
+		re_map['err_msg'] = 'No item in response.'
+		return re_map
+	
+	re_map['videos'] = response['items'] # a list
+	return re_map
+
+
+def video_list(vid, *args):
+	'''
+	vid: str, video id
+	*args: parts of request
+	return: dict, json file
+	'''
+	ytb0 = ytbAPI()
+	ytb0.scope('videos')
+	ytb0.part(*args)
+	ytb0.id(vid)
+	ytb0.key()
+	response = ytb0.GET()
+
+	if 'error' in response:
+		raise Exception(response['error']['message'])
+	elif not 'items' in response:
+		raise Exception('No items in response')
+
+	return response['items'][0]
+
+
+def video_viewCount(vid):
+	'''
+	Get the view count of a video
+	vid: str, video id
+	return: str, the number of views, like '320000'
+	'''
+	stat = video_list(vid, 'statistics')
+	return stat['statistics']['viewCount']
+
+
+# def most_video_ch():
+

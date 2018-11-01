@@ -1,0 +1,35 @@
+{% extends "youtube.html" %}
+ 
+{% block content2show %}
+<div class="w3-container w3-card w3-light-grey w3-margin-left w3-animate-opacity">
+
+<div class="w3-panel">
+
+<table class="w3-table w3-striped w3-white w3-margin-top">
+    <tr>
+        <td><img src={{thumb_88_url}} class="w3-circle" alt="Img failed">
+            &nbsp;&nbsp;{{mine_title}}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Channel id:</td>
+        <td>{{mine_ch_id}}</td>
+    </tr>
+    <tr>
+        <td>The first time I use youtube is at {{publishDate}}</td>
+    </tr>
+    <tr>
+        <td>I have liked {{mine_like_num}} videos</td><td></td>
+    </tr>
+</table>
+
+{% if err_msg %}
+<div class="w3-red">
+    <p>Error: {{err_msg}}</p>
+</div>
+{% endif %}
+
+</div>
+
+</div>
+{% endblock %}

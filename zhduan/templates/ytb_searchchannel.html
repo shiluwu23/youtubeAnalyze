@@ -3,12 +3,12 @@
 {% block content2show %}
 <div class="w3-container w3-card w3-light-grey w3-margin-left w3-animate-opacity">
 
-<form action="/youtube/channelinfo/search" method="post" class="w3-text-red">
+<form action="{% url 'chInfoSearch' %}" method="POST" class="w3-text-red">
     {% csrf_token %}
     <h4 class="w3-center">Search channel</h4>
-    <div class="">
+    <div>
     <input class="w3-input w3-border w3-threequarter" name="cid" 
-        type="text" placeholder="Enter the channel id"></td>
+        type="text" placeholder="Enter the channel id">
     <input class="w3-button w3-quarter w3-red" 
         type="submit" value="Submit">
     </div>
@@ -42,7 +42,13 @@
         <td>{{ch_videoCount}}</td>
     </tr>
 </table>
-<p>{{err_msg}}</p>
+
+{% if err_msg %}
+<div class="w3-red">
+    <p>Error: {{err_msg}}</p>
+</div>
+{% endif %}
+
 </div>
 
 </div>
