@@ -4,7 +4,7 @@ import json
 class ytbAPI(object):
 
 	DATA_V3_BASE = 'https://www.googleapis.com/youtube/v3/'
-	__API_KEY = "AIzaSyCaFntp_qtjAS765oEKsZk19fJ2K7tZ2qk"
+	__API_KEY = ""
 
 	def __init__(self):
 		self.keyStr = '&key=' + self.__API_KEY
