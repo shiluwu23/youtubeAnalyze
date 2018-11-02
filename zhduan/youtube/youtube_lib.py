@@ -1,4 +1,35 @@
 from .ytbAPI import ytbAPI
+import time
+
+def pre_time_RFC3339(d=0, w=0, m=0, y=0):
+	'''
+	minus current local time with the parameter,
+	then return the time in format of RFC 3339
+	d: int, day
+	w: int, week
+	m: int, month
+	y: int, year
+	return: str, like '2018-10-30T14:03:06Z'
+	'''
+	assert d >= 0
+	assert w >= 0
+	assert m >= 0
+	assert y >= 0
+
+	lt = time.time()
+	if d:
+		lt -= 86400*d
+	if w:
+		lt -= 604800*w
+	if m:
+		lt -= 2592000*m
+	if y:
+		lt -= 31536000*y
+	lt = time.localtime(lt)
+	timeStr = time.strftime("%Y-%m-%dT%H:%M:%SZ", lt)
+
+	return timeStr
+
 
 def channel_list(cid):
 	'''
@@ -63,15 +94,37 @@ def mine_channel_list(token):
 		tmp = items0['snippet']['publishedAt']
 		tmp = tmp.replace('T', ' ')
 		tmp = tmp.replace('Z','')
-		re_map['publishDate'] = tmp
+		re_map['publishDate'] = tmp[:-4]
 		re_map['thumb_88_url'] = items0['snippet']['thumbnails']['default']['url']
 		re_map['mine_like_id'] = items0['contentDetails']['relatedPlaylists']['likes']
 		re_map['mine_upload'] = items0['contentDetails']['relatedPlaylists']['uploads']
+		re_map['mine_sub_num'] = my_sub_num(token)
 	except Exception as e:
 		re_map['err_msg'] = e
 		return re_map
 	
 	return re_map
+
+
+def my_sub_num(token):
+	'''
+	calculate and return the number of my subscriptions
+	token: str, OAuth 2 user's access token
+	return: str, user's subscription number
+			or str, the exception message
+	'''
+	ytb0 = ytbAPI()
+	ytb0.scope('subscriptions')
+	ytb0.part('contentDetails')
+	ytb0.mine()
+	ytb0.access_token(token)
+	response = ytb0.GET()
+
+	try:
+		num = response['pageInfo']['totalResults']
+	except Exception as e:
+		return e
+	return num
 
 
 def list_items_num(lid, token):
@@ -96,9 +149,16 @@ def list_items_num(lid, token):
 		return response['pageInfo']['totalResults']
 	
 
-def top_videos(num):
+def top_videos(num=10, after=None, cid='all', du='any'):
 	'''
 	num: int, how many videos to return
+	after: str,  the time, like '2018-01-01T00:00:00Z'
+	cid: str, video category id
+	du: str, the duration of video: 'any',
+									'long' > 20 mins,
+									'medium' 4 - 20 mins,
+									'short' < 4 mins
+
 	return: dict, ['videos']: a list of (num) dicts, ['err_msg']
 	'''
 	ytb0 = ytbAPI()
@@ -109,6 +169,14 @@ def top_videos(num):
 	ytb0.safeSearch('none')
 	ytb0.type('video')
 	ytb0.key()
+	if after:
+		ytb0.publishedAfter(after)
+	if cid != 'all':
+		ytb0.videoCategoryId(cid)
+	if du != 'any':
+		ytb0.videoDuration(du)
+
+	print(ytb0.url)
 	response = ytb0.GET()
 
 	re_map = {}

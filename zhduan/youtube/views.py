@@ -31,10 +31,10 @@ def channel_info_home(request):
 
 def channel_info_search(request):
 	result = {}
-	if request.POST:
-		cid = request.POST.get('cid')
+	if request.method == 'POST':
+		cid = request.POST['cid']
 		result = youtube_lib.channel_list(cid)
-	return render(request, 'ytb_searchchannel.html', result)
+		return render(request, 'ytb_searchchannel.html', result)
 
 def my_youtube_stats(request):
 	try:
@@ -50,7 +50,7 @@ def my_youtube_stats(request):
 
 
 def ytb_top_video(request):
-	result = youtube_lib.top_videos(10)
+	result = youtube_lib.top_videos()
 	for i in range(len(result['videos'])):
 		tmp = result['videos'][i]['snippet']['publishedAt']
 		tmp = tmp.replace('T', ' ')
@@ -67,7 +67,39 @@ def ytb_top_video(request):
 	return render(request, 'ytb_topvideo.html', result)
 
 
+def ytb_top_filter(request):
+	if request.method == 'POST':
+		time = request.POST['date']
+		catgoryId = request.POST['category']
+		duration = request.POST['duration']
+		# deal with 'date'
+		if time == 'all':
+			time = None
+		elif time == 'today':
+			time = youtube_lib.pre_time_RFC3339(d=1)
+		elif time == 'week':
+			time = youtube_lib.pre_time_RFC3339(w=1)
+		elif time == 'month':
+			time = youtube_lib.pre_time_RFC3339(m=1)
+		elif time == 'year':
+			time = youtube_lib.pre_time_RFC3339(y=1)
+		
+		result = youtube_lib.top_videos(after=time, 
+										cid=catgoryId, du=duration)
+		for i in range(len(result['videos'])):
+			tmp = result['videos'][i]['snippet']['publishedAt']
+			tmp = tmp.replace('T', ' ')
+			tmp = tmp.replace('Z', '')
+			result['videos'][i]['snippet']['publishedAt'] = tmp[:-4]
 
+			vid = result['videos'][i]['id']['videoId']
+			count = youtube_lib.video_viewCount(vid)
+			count = int(count)
+			count = format(count, ',')
+			result['videos'][i]['views'] = count
+			result['videos'][i]['rank'] = i+1
+			result['videos'][i]['odd'] = (i+1)%2
+		return render(request, 'ytb_topvideo.html', result)
 
 
 

@@ -10,6 +10,7 @@ urlpatterns = [
     path('chinfo/search', views.channel_info_search, name='chInfoSearch'),
     path('myytb', views.my_youtube_stats, name='myYoutubePage'),
     path('topvideo', views.ytb_top_video, name='ytbTopVideos'),
+    path('topfilter', views.ytb_top_filter, name='ytbTopFilter'),
 
     path('oath', include('social_django.urls', namespace='social')),
 ]

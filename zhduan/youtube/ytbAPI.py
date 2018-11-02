@@ -4,7 +4,7 @@ import json
 class ytbAPI(object):
 
 	DATA_V3_BASE = 'https://www.googleapis.com/youtube/v3/'
-	__API_KEY = ""
+	__API_KEY = "AIzaSyCaFntp_qtjAS765oEKsZk19fJ2K7tZ2qk"
 
 	def __init__(self):
 		self.keyStr = '&key=' + self.__API_KEY
@@ -67,7 +67,7 @@ class ytbAPI(object):
 		self.orderStr = '&order=' + o
 		self.url += self.orderStr
 	
-	def safeSearch(self, s):
+	def safeSearch(self, s='none'):
 		'''
 		s: str, 'moderate', 'none', 'strict'
 		'''
@@ -80,6 +80,34 @@ class ytbAPI(object):
 		'''
 		self.typeStr = '&type=' + t
 		self.url += self.typeStr
+
+	def videoCategoryId(self, i):
+		'''
+		i: str, video category id
+		'''
+		self.vctgyIdStr = '&videoCategoryId=' + i
+		self.url += self.vctgyIdStr
+
+	def publishedAfter(self, t):
+		'''
+		t: str, the time, like '2018-01-01T00:00:00Z'
+		'''
+		t = t.replace(':','%3A')
+		self.pbAfterStr = '&publishedAfter=' + t
+		self.url += self.pbAfterStr
+
+	def videoDuration(self, d='any'):
+		'''
+		d: str, the duration of video, can be:
+								'any',
+								'long' > 20 mins,
+								'medium' 4 - 20 mins,
+								'short' < 4 mins
+		'''
+		valid = ('any','long','medium','short')
+		assert d in valid, '{} is not a valid duration'.format(d)
+		self.vDrtnStr = '&videoDuration=' + d
+		self.url += self.vDrtnStr
 
 	#---------------------------------------------------
 
@@ -102,7 +130,10 @@ class ytbAPI(object):
 		'''
 		return: dictionary, response of youtube/google
 		'''
-		req = request.Request(self.url)
-		page = request.urlopen(req).read()
-		page = page.decode('utf-8')
-		return json.loads(page)
+		try:
+			req = request.Request(self.url)
+			page = request.urlopen(req).read()
+			page = page.decode('utf-8')
+			return json.loads(page)
+		except Exception as e:
+			return {'error': e}

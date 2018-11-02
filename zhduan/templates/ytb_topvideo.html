@@ -4,7 +4,7 @@
 <div class="w3-container w3-card w3-light-grey w3-margin-left w3-animate-opacity">
 
 <div>
-    <h2>Top videos</h2>
+    <h2>Top viewed videos</h2>
 </div>
 
 <div onclick="showFilter('topFilter')" 
@@ -22,25 +22,47 @@ function showFilter(id) {
 }
 </script>
 
-<div class="w3-container w3-hide w3-border-bottom w3-padding-16 w3-animate-opacity"
+<div class="w3-container w3-hide w3-border-bottom w3-padding-16"
     id="topFilter">
-<form action="" method="POST">
+<form action="{% url 'ytbTopFilter' %}" method="POST">
 {% csrf_token %}
+    <div>
     <div class="w3-quarter" >
         <span class="w3-opacity">Category</span><br>
         <select class="w3-select w3-border w3-light-grey w3-opacity" name="category">
-            <option val="0">All</option>
-            <option val="1">Film & Animation</option>
-            <option val="2">Autos & Vehicles</option>
-            <option val="2">Music</option>
-            <option val="2">Pets & Animals</option>
-            <option val="2">Sports</option>
-            <option val="2">Short Movies</option>
-            <option val="2">Travel & Events</option>
-            <option val="2">Gaming</option>
-            <option val="2">Videoblogging</option>
-            <option val="2">People & Blogs</option>
-            <option val="2">Comedy</option>
+            <option value="all">All</option>
+            <option value="1">Film & Animation</option>
+            <option value="2">Autos & Vehicles</option>
+            <option value="10">Music</option>
+            <option value="15">Pets & Animals</option>
+            <option value="17">Sports</option>
+            <option value="18">Short Movies</option>
+            <option value="19">Travel & Events</option>
+            <option value="20">Gaming</option>
+            <option value="21">Videoblogging</option>
+            <option value="22">People & Blogs</option>
+            <option value="23">Comedy</option>
+            <option value="24">Entertainment</option>
+            <option value="25">News & Politics</option>
+            <option value="26">Howto & Style</option>
+            <option value="27">Education</option>
+            <option value="28">Science & Technology</option>
+            <option value="29">Nonprofits & Activism</option>
+            <option value="30">Movies</option>
+            <option value="31">Anime/Animation</option>
+            <option value="32">Action/Adventure</option>
+            <option value="33">Classics</option>
+            <option value="34">Comedy</option>
+            <option value="35">Documentary</option>
+            <option value="36">Drama</option>
+            <option value="37">Family</option>
+            <option value="38">Foreign</option>
+            <option value="39">Horror</option>
+            <option value="40">Sci-Fi/Fantasy</option>
+            <option value="41">Thriller</option>
+            <option value="42">Shorts</option>
+            <option value="43">Shows</option>
+            <option value="44">Trailers</option>
         </select>
     </div>
     <div class="w3-quarter w3-left-align w3-margin-left">
@@ -58,20 +80,25 @@ function showFilter(id) {
     </div>
     <div class="w3-quarter w3-left-align" style="width:20%">
         <span class="w3-opacity">Duration</span><br>
-        <input class="w3-radio" type="radio" name="duration" value="all" checked>
+        <input class="w3-radio" type="radio" name="duration" value="any" checked>
         All time<br>
-        <input class="w3-radio" type="radio" name="duration" value="4">
+        <input class="w3-radio" type="radio" name="duration" value="short">
         &lt;4 mins<br>
-        <input class="w3-radio" type="radio" name="duration" value="420">
+        <input class="w3-radio" type="radio" name="duration" value="medium">
         4-20 mins<br>
-        <input class="w3-radio" type="radio" name="duration" value="20">
+        <input class="w3-radio" type="radio" name="duration" value="long">
         &gt;20 mins<br>
     </div>
-    <div class="w3-quarter w3-left-align">
+    <div class="w3-quarter">
         <span class="w3-opacity">Location</span><br>
         <select class="w3-select w3-border w3-light-grey w3-opacity" name="location">
             <option val="0">All</option>
         </select>
+    </div>
+    </div>
+    <div class="w3-container w3-right-align">
+        <input class="w3-button w3-red w3-card" 
+            type="submit" value="Top videos">
     </div>
     
 </form>
@@ -87,7 +114,8 @@ function showFilter(id) {
                 <img class="w3-card" src={{v.snippet.thumbnails.default.url}} 
                 alt="Img failed"></a></td>
             <td>
-                <a href="https://www.youtube.com/watch?v={{v.id.videoId}}">
+                <a href="https://www.youtube.com/watch?v={{v.id.videoId}}"
+                    style="text-decoration: none;">
                 <span>{{v.snippet.title}}</span><br>
                 </a>
                 <p class="w3-small w3-opacity">Published on 
