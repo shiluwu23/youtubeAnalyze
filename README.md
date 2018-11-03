@@ -17,15 +17,18 @@ We use [Django](https://www.djangoproject.com) as our server framework. You can 
 
 0. Make sure you have a python 3.x
 
-1. Install [Django](https://www.djangoproject.com)
+1. Install [Django](https://www.djangoproject.com) and [Python Social Auth of Django](https://github.com/python-social-auth/social-app-django)
 ```bash
 pip install Django
+pip install social-auth-app-django
 ```
 2. Download our codes, open terminal in ```/zhduan```, then
 ```bash
 python manage.py runserver 0:80
+or
+python manage.py runserver
 ```
-3. You are done! Open your browser and enter ```localhost```, then you should see a UI of the website.
+3. You are done! Open your browser and enter ```localhost```(python manage.py runserver 0:80) or ```localhost:8000```(python manage.py runserver), then you should see a UI of the website.
 
 4. Open ```/zhduan/youtube/ytbAPI.py```, enter your Google API Key at ```line 7```. For how to get a Google API Key, you can [Google it](https://www.google.com/search?source=hp&ei=XtrdW_ujLq2k_Qb5w6m4AQ&q=google+api+key&btnK=Google+Search&oq=google+api+key&gs_l=psy-ab.3..0l10.1453.4574..4861...0.0..0.176.1171.14j1......0....1..gws-wiz.....0..0i131j0i10.ugf-rXJhE4k).
 
