@@ -32,7 +32,7 @@ python manage.py runserver
 
 4. Open ```/zhduan/youtube/ytbAPI.py```, enter your Google API Key at ```line 7```. For how to get a Google API Key, you can [Google it](https://www.google.com/search?source=hp&ei=XtrdW_ujLq2k_Qb5w6m4AQ&q=google+api+key&btnK=Google+Search&oq=google+api+key&gs_l=psy-ab.3..0l10.1453.4574..4861...0.0..0.176.1171.14j1......0....1..gws-wiz.....0..0i131j0i10.ugf-rXJhE4k).
 
-5. Now you can access most functions of the website on your localhost, except ones need OAuth 2 (for how to use Google OAuth 2, please see our ```docs/Google OAuth 2.md```.
+5. Now you can access most functions of the website on your localhost, except ones need OAuth 2 (for how to use Google OAuth 2, please see our ```docs/Google OAuth 2.md```).
 
 # Use our YouTube API library
 If you just want to try our YouTube API instead of the whole project, take the following steps. (Make sure you have Python 3.x)
