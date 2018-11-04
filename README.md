@@ -46,10 +46,17 @@ pip install urllib3
 
 2. Download ```/zhduan/youtube/ytbAPI.py```. Put it in the same folder with your own codes. Enter your Google API Key at ```line 7```. For how to get a Google API Key, you can [Google it](https://www.google.com/search?source=hp&ei=XtrdW_ujLq2k_Qb5w6m4AQ&q=google+api+key&btnK=Google+Search&oq=google+api+key&gs_l=psy-ab.3..0l10.1453.4574..4861...0.0..0.176.1171.14j1......0....1..gws-wiz.....0..0i131j0i10.ugf-rXJhE4k).
 
-3. You are done!
+3. Import our library
+```Python
+from .ytbAPI import ytbAPI
+```
 
-3. Here is an example of getting top 10 viewed video in YouTube in the history. There are more in ```youtube_lib.py```.
+4. You are done!
+
+5. Here is an example of getting top 10 viewed video in YouTube in the history. There are more in ```youtube_lib.py```.
 ```python
+from .ytbAPI import ytbAPI
+
 ytb0 = ytbAPI()
 ytb0.scope('search')
 ytb0.part('snippet')
