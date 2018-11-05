@@ -1,0 +1,43 @@
+{% extends "youtube.html" %}
+
+{% block content2show %}
+<div class="w3-container w3-card w3-light-grey w3-margin-left w3-animate-opacity">
+
+<div class="w3-panel">
+
+<table class="w3-table w3-striped w3-white w3-margin-top">
+
+    <tr>
+        <td>Welcome to our website!</td>
+
+    </tr>
+    <tr>
+        <td>For more information please check our Github.</td>
+    </tr>
+
+    <tr>
+
+        <td><a href="https://github.com/duanzhiihao/youtubeAnalyze"
+          class="w3-hover-text-green">Our Github</a></td>
+    </tr>
+    <tr>
+        <td><a href=https://ec601analyzer.slack.com/messages/CCZA3LL0G/team/UD13VSA79/
+          class="w3-hover-text-green">Our slack</a></td>
+    </tr>
+    <tr>
+        <td><a href=https://trello.com/b/PlYIUyOW/youtube-analyser%EF%BC%81
+          class="w3-hover-text-green">Our Trello</a></td>
+    </tr>
+
+</table>
+
+{% if err_msg %}
+<div class="w3-red">
+    <p>Error: {{err_msg}}</p>
+</div>
+{% endif %}
+
+</div>
+
+</div>
+{% endblock %}
