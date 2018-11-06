@@ -30,7 +30,7 @@ python manage.py runserver
 ```
 3. You are done! Open your browser and enter ```localhost```(python manage.py runserver 0:80) or ```localhost:8000```(python manage.py runserver), then you should see a UI of the website.
 
-4. Open ```/zhduan/youtube/ytbAPI.py```, enter your Google API Key at ```line 7```. For how to get a Google API Key, you can [Google it](https://www.google.com/search?source=hp&ei=XtrdW_ujLq2k_Qb5w6m4AQ&q=google+api+key&btnK=Google+Search&oq=google+api+key&gs_l=psy-ab.3..0l10.1453.4574..4861...0.0..0.176.1171.14j1......0....1..gws-wiz.....0..0i131j0i10.ugf-rXJhE4k).
+4. Open ```/zhduan/youtube/ytbAPI.py```, enter your Google API Key at ```line 7```. For how to get a Google API Key, you can read the [official doc](https://cloud.google.com/docs/authentication/api-keys?hl=en&authuser=0&visit_id=1541530248023-3715642940710334230&rd=1), or create API key [here](https://console.cloud.google.com/apis/credentials).
 
 5. Now you can access most functions of the website on your localhost, except ones need OAuth 2 (for how to use Google OAuth 2, please see our ```docs/Google OAuth 2.md```).
 
@@ -44,7 +44,7 @@ If you just want to try our YouTube API instead of the whole project, take the f
 pip install urllib3
 ```
 
-2. Download ```/zhduan/youtube/ytbAPI.py```. Put it in the same folder with your own codes. Enter your Google API Key at ```line 7```. For how to get a Google API Key, you can [Google it](https://www.google.com/search?source=hp&ei=XtrdW_ujLq2k_Qb5w6m4AQ&q=google+api+key&btnK=Google+Search&oq=google+api+key&gs_l=psy-ab.3..0l10.1453.4574..4861...0.0..0.176.1171.14j1......0....1..gws-wiz.....0..0i131j0i10.ugf-rXJhE4k).
+2. Download ```/zhduan/youtube/ytbAPI.py```. Put it in the same folder with your own codes. Enter your Google API Key at ```line 7```. For how to get a Google API Key, you can read the [official doc](https://cloud.google.com/docs/authentication/api-keys?hl=en&authuser=0&visit_id=1541530248023-3715642940710334230&rd=1), or create API key [here](https://console.cloud.google.com/apis/credentials).
 
 3. Import our library
 ```Python
